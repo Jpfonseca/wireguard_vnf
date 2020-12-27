@@ -1,0 +1,21 @@
+"name": "wireguardvdu"
+"summary": "Wireguard charm for osm"
+"maintainer": "Jo\xE3o Fonseca <jpedrofonseca@av.it.pt>"
+"description": |
+  This is a simple wireguard charm to be used in a vnf deployed on OSM
+"tags":
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://jujucharms.com/docs/stable/authors-charm-metadata
+- "misc"
+- "osm"
+- "vnf"
+- "network"
+- "vpn"
+- "nfv"
+"series":
+- "xenial"
+- "bionic"
+- "focal"
+- "trusty"
+"display-name": "Wireguard-vdu"
+"subordinate": !!bool "false"
