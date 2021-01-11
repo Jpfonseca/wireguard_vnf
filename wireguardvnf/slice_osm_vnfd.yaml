@@ -1,6 +1,7 @@
 'vnfd:vnfd-catalog':
   schema-version: v3.0
   vnfd:
+
     - logo: wireguard.png
       id: slice_osm_vnfd
       name: slice_osm_vnfd
@@ -86,7 +87,7 @@
                 default-value: true
               - name: wg_server
                 data-type: BOOLEAN
-                default-value: true
+                default-value: false
           - name: touch
             parameter:
               - name: filename
