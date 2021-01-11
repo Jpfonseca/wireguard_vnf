@@ -93,3 +93,27 @@
               - name: filename
                 data-type: STRING
                 default-value : '/tmp/test3'
+          - name: confclient
+            parameter:
+              - name: server_public_address
+                data-type: STRING
+                default-value : '10.0.13.214'
+              - name: server_public_key 
+                data-type: STRING
+                default-value : ''
+###Uncomment Accordingly
+##CLIENT
+#          - name: connserver
+#            parameter:
+#              - name: confirmation
+#                data-type: BOOLEAN
+#                default-value : false
+##SERVER
+#          - name: addpeer
+#            parameter:
+#              - name: endpoint
+#                data-type: STRING
+#                default-value : 192.168.85.127
+#              - name: client_public_key
+                data-type: STRING
+                default-value : 192.168.85.127
