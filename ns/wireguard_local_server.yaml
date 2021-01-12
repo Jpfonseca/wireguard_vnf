@@ -41,4 +41,17 @@ nsd:nsd-catalog:
               type: ELAN
               vim-network-name: proj_net
               vnfd-connection-point-ref:
+                -   ip-address: 10.0.13.214
                     member-vnf-index-ref: '1'
+                    vnfd-connection-point-ref: eth0
+                    vnfd-id-ref: slice_osm_vnfd
+          -   id: nsd_vnfd_vld_data
+              mgmt-network: true
+              name: nsd_vnfd_vld_data
+              short-name: nsd_vnfd_vld_data
+              type: ELAN
+              vnfd-connection-point-ref:
+                -   member-vnf-index-ref: '1'
+                    vnfd-connection-point-ref: wg0
+                    vnfd-id-ref: slice_osm_vnfd
+

@@ -392,7 +392,7 @@ def addpeer():
   
         conf="/etc/wireguard/"+config['forward_interface']+".conf"
         wgconf="\n\n[Peer]\nPublicKey= "+client_public_key+"\nEndpoint = "+endpoint+":"+str(config['listen_port'])+"\nAllowedIPs = 10.0.0.2/32"
-        cmd = ['echo {} |sudo tee -a {}'.format(wgconf,conf)]
+        cmd = ['echo "{}" |sudo tee -a {}'.format(wgconf,conf)]
         log(cmd)
         result, err = charms.sshproxy._run(cmd)
     except:
