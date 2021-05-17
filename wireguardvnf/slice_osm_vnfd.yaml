@@ -1,51 +1,90 @@
 'vnfd:vnfd-catalog':
   schema-version: v3.0
   vnfd:
-
+    #Place the logo of the VNF at the icons/ folder and use the same name here
     - logo: wireguard.png
-      id: slice_osm_vnfd
-      name: slice_osm_vnfd
-      short-name: slice_osm_vnfd
+
+      id: wireguard_vnfd
+      name: wireguard_vnfd
+      short-name: wireguard_vnfd
+      description: Wireguard VPN Peer. It exposes 2 external cp( management, data) and one internal one for the tunnel overlay;
+
+      version: '0.9.3'
       vendor: IT Aveiro
-      description: VNFD with 2 CPs to get some metrics fast
-      version: '1.0'
+
       mgmt-interface:
         cp: eth0
+
+      # Virtual Deployment Unit
       vdu:
-        - id: wireguard-ubuntu-18.04-server
-          name: wireguard-ubuntu-18.04-server
+
+        - id: wireguard-ubuntu-18.04
+          name: wireguard-ubuntu-18.04
           description: Simple VM to create a Wireguard Tunnel
           count: 1
+
+          #Flavour of the VM to  be instantiated at the VIM (needs to be available at the VIM)
           vm-flavor:
             vcpu-count: 4
             memory-mb: 4096
             storage-gb: 30
+
+          #Name of the image to be used at the VIM (needs to be available at the VIM)
           image: ubuntu-18.04-server-amd64
+
+          #Place the cloud-init file in the cloud_init folder and use the name of the file
+          #to be used on the creation of the VM at the VIM
           cloud-init-file: cloud-init
+
+          #Name and type of the interface VIM (needs to be available at the VIM)
           interface:
+            #Management
             - name: eth0
               type: EXTERNAL
               mgmt-interface: true
               virtual-interface:
                 type: PARAVIRT
               external-connection-point-ref: eth0
+
+            #data
+            - name: eth1
+                type: EXTERNAL
+                mgmt-interface: true
+                virtual-interface:
+                  type: PARAVIRT
+                external-connection-point-ref: eth1
+
+            #Tunnel Overlay
             - name: wg0
-              type: EXTERNAL
+              type: INTERNAL
               virtual-interface:
                 type: PARAVIRT
-              external-connection-point-ref: wg0
+              internal-connection-point-ref: wg0
+
+      #Name of the connection points(cp) exposed by the vnf
       connection-point:
         - name: eth0
           id: eth0
           short-name: eth0
           type: VPORT
-        - name: wg0
-          id: wg0
-          short-name: wg0
-          type: VPORT
+        - name: eth1
+            id: eth1
+            short-name: eth1
+            type: VPORT
+
+      #VNF configuration and abstraction (VCA) -related commands
+      #The juju controller will receive the requests fowarded via the LCM MODULE of OSM
+      #These commands can be either sent to a Proxy Charm or a Native charm
       vnf-configuration:
         juju:
+            #Charm to deploy
             charm: wireguardvdu
+            #Type of charm
+            proxy: true
+
+        #This charm configuration is similar to deploying with an local existing configuration file
+        #using the command juju deploy wireguardvdu --config myconfig.yaml.
+
         initial-config-primitive:
             - seq: 1
               name: config
@@ -56,12 +95,6 @@
                     value: ubuntu
                   - name: ssh-password
                     value: ubuntu
-                    #            - seq: 2
-              #              name: touch
-              #              parameter:
-              #                - name: filename
-              #                  data-type: STRING
-              #                  value: '/home/ubuntu/first-touch'
 
         config-primitive:
           - name: config
@@ -69,51 +102,46 @@
               - name: listen_port
                 data-type: INTEGER
                 default-value: 51820
-              - name: server_tunnel_address
+              - name: tunnel_address
                 data-type: STRING
                 default-value: 10.0.0.1/24
-              - name: client_tunnel_address
+              - name: external_interface
                 data-type: STRING
-                default-value: 10.0.0.2/24
-              - name: server_public_address
-                data-type: STRING
-                default-value: 10.0.13.214/23
-              - name: foward_interface
+                default-value: eth0
+              - name: forward_interface
                 data-type: STRING
                 default-value: wg0
                 hidden: true
               - name: save_config
                 data-type: BOOLEAN
                 default-value: true
-              - name: wg_server
+              - name: import_tunnel_keys
                 data-type: BOOLEAN
                 default-value: false
+
           - name: touch
             parameter:
               - name: filename
                 data-type: STRING
                 default-value : '/tmp/test3'
-          - name: confclient
+
+          - name: addpeer
             parameter:
-              - name: server_public_address
+              - name: peer_endpoint
                 data-type: STRING
-                default-value : '10.0.13.214'
-              - name: server_public_key 
+                default-value : '0.0.0.0/24'
+              - name: peer_public_key
                 data-type: STRING
                 default-value : ''
-###Uncomment Accordingly
-##CLIENT
-#          - name: connserver
-#            parameter:
-#              - name: confirmation
-#                data-type: BOOLEAN
-#                default-value : false
-##SERVER
-#          - name: addpeer
-#            parameter:
-#              - name: endpoint
-#                data-type: STRING
-#                default-value : 192.168.85.127
-#              - name: client_public_key
+              - name: peer_listen_port
+                data-type: INTEGER
+                default-value: 51820
+              - name: peer_allowed_ips
                 data-type: STRING
-                default-value : 192.168.85.127
+                default-value: '0.0.0.0/24'
+
+          - name: start
+          - name: stop
+          - name: restart
+
+          - name: getserverinfo

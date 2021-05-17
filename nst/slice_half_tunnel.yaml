@@ -1,0 +1,21 @@
+nst:
+-   SNSSAI-identifier:
+        slice-service-type: eMBB
+    id: slice_part_tunnel
+    name: slice_part_tunnel
+    netslice-connection-point:
+    -   floating-ip-required: false
+        name: slice_cp_mgmt
+        nsd-connection-point-ref: nsd_cp_mgmt
+        nsd-id-ref: slice_osm_ns_server
+    -   floating-ip-required: false
+        name: slice_cp_data
+        nsd-connection-point-ref: nsd_cp_data
+        nsd-id-ref: slice_osm_ns_server
+    netslice-subnet:
+    -   description: NetSlice Subnet (service) composed by 1 vnf with 2 cp
+        id: slice_wireguard_mgmt
+        is-shared-nss: false
+        nsd-ref: slice_osm_ns_server
+    quality-of-service:
+        id: 1
