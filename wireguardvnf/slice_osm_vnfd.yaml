@@ -36,6 +36,13 @@
           #to be used on the creation of the VM at the VIM
           cloud-init-file: cloud-init
 
+          #Name of the Internal Connection Point to be used by Wireguard
+          # All internal connection points to be used in overlay networks should be referenced in this way
+          internal-connection-point:
+            - name: wg0
+              id: wg0
+              short-name: wg0
+
           #Name and type of the interface VIM (needs to be available at the VIM)
           interface:
             #Management
