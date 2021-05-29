@@ -59,7 +59,7 @@ def build_command(doc):
 
 
 if __name__ == '__main__':
-    charm_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "../wireguardvdu")))
+    charm_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
     metrics_yaml = os.path.join(charm_dir, "metrics.yaml")
     with open(metrics_yaml) as f:
         doc = yaml.load(f)

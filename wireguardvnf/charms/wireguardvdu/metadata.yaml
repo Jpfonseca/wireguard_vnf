@@ -1,5 +1,5 @@
 "name": "wireguardvdu"
-"summary": "Wireguard proxy charm for osm"
+"summary": "Wireguard charm for osm"
 "maintainer": "Jo\xE3o Fonseca <jpedrofonseca@av.it.pt>"
 "description": |
   This is a simple wireguard charm to be used in a vnf deployed on OSM
@@ -13,9 +13,9 @@
 - "vpn"
 - "nfv"
 "series":
+- "trusty"
 - "xenial"
 - "bionic"
 - "focal"
-- "trusty"
 "display-name": "Wireguard-vdu"
 "subordinate": !!bool "false"
